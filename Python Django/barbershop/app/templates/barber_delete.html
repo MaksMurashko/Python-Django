@@ -1,0 +1,10 @@
+{% extends "page.html" %}
+{% block title %}Парикмахеры{% endblock title %}
+{% block header %}Удалить парикмахера{% endblock header %}
+{% block main %}
+<h2>Вы уверены, что хотите удалить парикмахера "{{ barber.fio }}"?</h2>
+<form class="form" method="post">
+    {% csrf_token %}
+    <button class='but' type="submit">Удалить</button>
+</form>
+{% endblock main %}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <title>{% block title %}Заголовок{% endblock title %}</title>
+</head>
+<body>
+    <div id="navbar">
+        <a class="link" href="/">Главная</a>
+        <a class="link" href="/barbers">Парикмахеры</a>
+        <a  class="link" href="/shifts">Смены парикмахеров</a>
+        <a class="link" href="/clients">Обслуженные клиенты</a>
+        <div>
+            {% if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="logout" type="submit">Выход</button>
+            </form>
+          
+            {% else %}
+                <a href="{% url 'signup' %}">Регистрация</a>
+                <span> | </span>
+                <a href="{% url 'login' %}">Вход</a>
+            {% endif %}
+        </div>
+    </div>
+    <header>
+        <h1>{% block header %}Заголовок{% endblock header %}</h1>
+    </header>
+    <main>
+        {% block main %}{% endblock main %}
+    </main>
+</body>
+</html>

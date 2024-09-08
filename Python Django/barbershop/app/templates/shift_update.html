@@ -1,0 +1,12 @@
+{% extends "page.html" %}
+{% block title %}Смены{% endblock title %}
+{% block header %}Редактировать смену{% endblock header %}
+{% block main %}
+<form class="form" method="post">
+    {% csrf_token %}
+    {{form.barber}}
+    {{form.date}}
+    <span>{{error}}</span>
+    <button class='but' type="submit">Сохранить</button>
+</form>
+{% endblock main %}

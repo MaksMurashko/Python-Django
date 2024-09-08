@@ -1,0 +1,61 @@
+{% extends "page.html" %}
+{% block title %}Парикмахеры{% endblock title %}
+{% block header %}Парикмахеры{% endblock header %}
+{% block main %}
+    {% if user.is_authenticated and user.is_superuser %}
+        <form method="GET" class="filtr" action="{% url 'barbers' %}">
+            <label for="year">Год:</label>
+            <input class="filtr_input" type="number" id="year" name="year" min="1900" max="2023" step="1">
+            <button class="filtr_but" type="submit">Фильтр</button>
+        </form>
+        <div class="filtr_result">
+            {% if year %}
+                {% if most_shifts_barber %}
+                    <p>Самый популярный барбер за год {{ year }}: ФИО: {{ most_shifts_barber.fio }} | Количество смен: {{ most_shifts_barber.num_shifts }}</p>
+                {% else %}
+                    <p>Нет информации о барбере с наибольшим количеством смен за год {{ year }}.</p>
+                {% endif %}
+                {% if error_message %}
+                    <p class="error">{{ error_message }}</p>
+                {% endif %}
+            {% endif %}
+        </div>
+        <a class="addBut" href="{% url 'barber_create' %}">Добавить парикмахера</a>
+    {% endif %}
+    <div class="scroll-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ФИО</th>
+                    <th>Разряд</th>
+                    <th>Должность</th>
+                    {% if user.is_authenticated and user.is_superuser %}
+                        <th></th>
+                    {% endif %}
+                </tr>
+            </thead>
+        </table>	
+        <div class="scroll-table-body">
+            <table>
+                <tbody>
+                    {% for barber in barbers %}
+                        <tr>
+                            <td>{{barber.fio}}</td>
+                            <td>{{barber.rank}}</td>
+                            <td>{{barber.position}}</td>
+                            {% if user.is_authenticated and user.is_superuser %}
+                                <td>
+                                    <a href="{% url 'barber_update' barber.id %}">Изменить</a>
+                                    <span> | </span>
+                                    <a href="{% url 'barber_delete' barber.id %}">Удалить</a>
+                                    <span> | </span>
+                                    <a href="{% url 'barber_shifts' barber.id %}">Смены</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>	
+    </div>
+{% endblock main %}

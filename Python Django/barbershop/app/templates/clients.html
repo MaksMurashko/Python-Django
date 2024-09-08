@@ -1,0 +1,42 @@
+{% extends "page.html" %}
+{% block title %}Клиенты{% endblock title %}
+{% block header %}Обслуженные клиенты{% endblock header %}
+{% block main %}
+    {% if user.is_authenticated and user.is_superuser %}
+        <a class ="addBut" href="{% url 'client_create' %}">Добавить клиента</a>
+    {% endif %}
+    <div class="scroll-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Имя клиента</th>
+                    <th>Парикмахер</th>
+                    <th>Смена</th>
+                    {% if user.is_authenticated and user.is_superuser %}
+                        <th></th>
+                    {% endif %}
+                </tr>
+            </thead>
+        </table>	
+        <div class="scroll-table-body">
+            <table>
+                <tbody>
+                    {% for client in clients %}
+                        <tr>
+                            <td>{{client.name}}</td>
+                            <td>{{client.shift.barber.fio}}</td>
+                            <td>{{client.shift.date}}</td>
+                            {% if user.is_authenticated and user.is_superuser %}
+                                <td>
+                                    <a href="{% url 'client_update' client.id %}">Изменить</a>
+                                    <span> | </span>
+                                    <a href="{% url 'client_delete' client.id %}">Удалить</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>	
+    </div>
+{% endblock main %}

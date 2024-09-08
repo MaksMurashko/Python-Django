@@ -1,0 +1,17 @@
+{% extends "page.html" %}
+{% block title %}Парикмахеры{% endblock title %}
+{% block header %}Редактировать парикмахера{% endblock header %}
+{% block main %}
+<form class="form" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        {{ field }}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+    <button class='but' type="submit">Сохранить</button>
+</form>
+{% endblock main %}

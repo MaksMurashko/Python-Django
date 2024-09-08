@@ -1,0 +1,25 @@
+{% extends "page.html" %}
+{% block title %}Смены парикмахера{% endblock title %}
+{% block header %}Смены парикмахера {{ barber.fio}}{% endblock header %}
+{% block main %}
+<div class="scroll-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Дата смены</th>
+            </tr>
+        </thead>
+    </table>	
+    <div class="scroll-table-body">
+        <table>
+            <tbody>
+                {% for shift in shifts %}
+                    <tr>
+                        <td>{{ shift.date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>	
+</div>
+{% endblock main %}

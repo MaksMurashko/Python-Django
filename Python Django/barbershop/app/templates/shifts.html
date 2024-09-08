@@ -1,0 +1,40 @@
+{% extends "page.html" %}
+{% block title %}Смены{% endblock title %}
+{% block header %}Смены{% endblock header %}
+{% block main %}
+    {% if user.is_authenticated and user.is_superuser %}
+        <a class ="addBut" href="{% url 'shift_create' %}">Добавить смену</a>
+    {% endif %}
+    <div class="scroll-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Парикмахер</th>
+                    <th>Дата</th>
+                    {% if user.is_authenticated and user.is_superuser %}
+                        <th></th>
+                    {% endif %}
+                </tr>
+            </thead>
+        </table>	
+        <div class="scroll-table-body">
+            <table>
+                <tbody>
+                    {% for shift in shifts %}
+                        <tr>
+                            <td>{{shift.barber.fio}}</td>
+                            <td>{{shift.date}}</td>
+                            {% if user.is_authenticated and user.is_superuser %}
+                                <td>
+                                    <a href="{% url 'shift_update' shift.id %}">Изменить</a>
+                                    <span> | </span>
+                                    <a href="{% url 'shift_delete' shift.id %}">Удалить</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>	
+    </div>
+{% endblock main %}
